@@ -1,5 +1,5 @@
 # Destiny
-> A program like _UNIX_'s _Fortune_ program with the following requirements:
+> Like _UNIX_'s _Fortune_ program, with the following requirements:
 
 1. Obtain number of entries.
 2. Generate random val based on (1).
