@@ -1,8 +1,13 @@
 #include <stdio.h>
+#include <time.h>
 
 int main()
 {
-    printf("Hello, Dan!\n");
+    time_t now;
+
+    time(&now);
+    printf("The computer thinks it's %ld\n", now);
+    printf("%s", ctime(&now));
 
     return (0);
 }
