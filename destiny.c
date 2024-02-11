@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define BSIZE 256
+
+void print_all_lines(int item_count, char **list_base);
 
 int main()
 {
@@ -10,7 +13,7 @@ int main()
     FILE *fp;
     char buffer[BSIZE]; // temporary line storage
     char *r, *entry;
-    int itemCount, x = 0;
+    int item_count, saying = 0;
     char **list_base; // pointer->pointers[]->string
 
     fp = fopen(fileName, "r");
@@ -40,12 +43,29 @@ int main()
         }
 
         strcpy(entry, buffer);
-        *(list_base + itemCount) = entry;   // array of pointers gets assigned
-        itemCount++;    // move to next pointer in array
+        *(list_base + item_count) = entry; // array of pointers gets assigned
+        item_count++;                      // move to next pointer in array
+        if (item_count % 100 == 0)
+        {
+            list_base = (char **)realloc(list_base, sizeof(char *) * (item_count * 2));
+            if (list_base == NULL)
+            {
+                fprintf(stderr, "Unable to reallocate memory.\n");
+                exit(1);
+            }
+        }
     }
 
     fclose(fp);
-    for (x; x < itemCount; x++)
-        printf("%s", *(list_base + x)); // dereference value at address
+    // print_all_lines(item_count, list_base);
+    srand((unsigned)time(NULL)); // time currently as seed for psuedo random num generated
+    saying = rand() % (item_count - 1); // 0 - (item_count - 1)
+    printf("%s", *(list_base + saying));
     return (0);
+}
+
+void print_all_lines(int item_count, char **list_base)
+{
+    for (int x = 0; x < item_count; x++)
+        printf("%s", *(list_base + x)); // dereference value at address
 }
